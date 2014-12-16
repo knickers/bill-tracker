@@ -13,35 +13,17 @@ td, th {
 	border-top: 1px solid #ccc;
 	border-left: 1px solid #ccc;
 }
-th {
-	text-align: center;
-}
-td {
-	padding: 3px 5px;
-}
-td.date {
-	text-align: right;
-}
-td .dollar {
-	float: right;
-}
+th { text-align: center; }
+td { padding: 3px 5px; }
 
-.hide {
-	display: none;
-}
+.hide { display: none; }
+.red { color: red; }
+.text-center { text-align: center; }
 
-.red {
-	color: red;
-}
-
-.name {
-	width: 100%;
-}
-
-.month input {
-	width: 95%;
-	height: 100%;
-}
+.name { width: 100%; }
+td.date { text-align: right; }
+td .dollar { float: right; }
+.month input { width: 95%; height: 100%; }
 
 @media (max-width: 768px) {
 	table {
