@@ -32,6 +32,21 @@
 			</button>
 			<input type="checkbox" id="modal-toggle" class="hide">
 			<div class="modal">
+				<input type="text" id="transaction-name" placeholder="Name">
+				
+				<input type="date" id="transaction-due">
+				
+				<div class="">
+					Every
+					<input type="number" id="transaction-period-skip" value="1">
+					<select id="transaction-period">
+						<option value="day">Day</option>
+						<option value="week">Week</option>
+						<option value="month">Month</option>
+						<option value="year">Year</option>
+					</select>
+				</div>
+				
 				<button>
 					<label for="modal-toggle">Save</label>
 				</button>
