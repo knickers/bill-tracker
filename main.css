@@ -1,0 +1,42 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	width: 100%;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+td, th {
+	padding: 2px 0;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+}
+th {
+	text-align: center;
+}
+td {
+	padding: 3px 5px;
+}
+td.date {
+	text-align: right;
+}
+td .dollar {
+	float: right;
+}
+
+.red {
+	color: red;
+}
+
+.month input {
+	width: 95%;
+	height: 100%;
+}
+
+@media (max-width: 768px) {
+	table {
+		font-size: 14px;
+	}
+}
