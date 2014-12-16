@@ -26,6 +26,10 @@ td .dollar {
 	float: right;
 }
 
+.hide {
+	display: none;
+}
+
 .red {
 	color: red;
 }

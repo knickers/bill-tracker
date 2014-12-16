@@ -1,12 +1,3 @@
-<?php
-$bills = mysql_query('
-	SELECT b.*, p.date AS paid
-	FROM bills AS b
-	LEFT JOIN payments AS p
-		ON b.id = p.bill_id
-		AND MONTH(p.date) = MONTH(NOW())
-');
-?>
 <html>
 	<head>
 		<title>Bill Tracker</title>
@@ -22,26 +13,20 @@ $bills = mysql_query('
 				<th class="name">Name</th>
 				<th class="amount">Amount</th>
 				<th class="total">Total</th>
-				<th class="month" data-val="<?php echo date('m') ?>">
-					<?php echo date('M') ?>
-				</th>
+				<th class="month" data-val=""></th>
 			</tr>
-			<?php while($bill = mysql_fetch_assoc($bills)) : ?>
-				<tr class="transaction">
-					<td class="date"><?php echo $bill['date'] ?></td>
-					<td class="name"><?php echo $bill['name'] ?></td>
-					<td class="amount">
-						<span class="dollar">
-							<?php echo $bill['amount'] ?>
-						</span>
-						$
-					</td>
-					<td class="total"><span class="dollar"></span>$</td>
-					<td class="month">
-						<input type="checkbox" <?php echo $bill['paid'] ? 'checked' : '' ?>/>
-					</td>
-				</tr>
-			<?php endwhile; ?>
+			<tr class="transaction hide">
+				<td class="date"></td>
+				<td class="name"></td>
+				<td class="amount">
+					<span class="dollar"></span>
+					$
+				</td>
+				<td class="total"><span class="dollar"></span>$</td>
+				<td class="month">
+					<input type="checkbox" />
+				</td>
+			</tr>
 		</table>
 	</body>
 </html>
