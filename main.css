@@ -25,6 +25,21 @@ td.date { text-align: right; }
 td .dollar { float: right; }
 .month input { width: 95%; height: 100%; }
 
+.modal {
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	height: 90%;
+	padding: 5px;
+	display: none;
+	position: absolute;
+	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.6);
+	background-color: white;
+}
+.modal-toggle:checked ~ .modal {
+	display: block;
+}
+
 @media (max-width: 768px) {
 	table {
 		font-size: 14px;

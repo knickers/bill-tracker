@@ -18,10 +18,7 @@
 			<tr class="transaction hide">
 				<td class="date"></td>
 				<td class="name"></td>
-				<td class="amount">
-					<span class="dollar"></span>
-					$
-				</td>
+				<td class="amount"><span class="dollar"></span>$</td>
 				<td class="total"><span class="dollar"></span>$</td>
 				<td class="month">
 					<input type="checkbox" />
@@ -29,7 +26,19 @@
 			</tr>
 		</table>
 		<div class="text-center">
-			<button class="">Add Transaction</button>
+			<br>
+			<button>
+				<label for="modal-toggle">Add Transaction</label>
+			</button>
+			<input type="checkbox" id="modal-toggle" class="">
+			<div class="modal">
+				<button>
+					<label for="modal-toggle">Save</label>
+				</button>
+				<button>
+					<label for="modal-toggle">Cancel</label>
+				</button>
+			</div>
 		</div>
 	</body>
 </html>
