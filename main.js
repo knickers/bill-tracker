@@ -1,5 +1,26 @@
 jQuery(function($) {
 	console.log('Loaded');
+	
+	var months = [
+		'Jan',
+		'Feb',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec'
+	];
+	
+	var initialize = function() {
+		var date = new Date();
+		$('.head .month').text(months[date.getMonth()]);
+	}
+	
 	var recalculate = function() {
 		var total = 0;
 		$('.transaction').each(function() {
@@ -30,5 +51,6 @@ jQuery(function($) {
 		});
 	});
 	
+	initialize();
 	recalculate();
 });

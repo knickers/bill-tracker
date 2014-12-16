@@ -34,6 +34,10 @@ td .dollar {
 	color: red;
 }
 
+.name {
+	width: 100%;
+}
+
 .month input {
 	width: 95%;
 	height: 100%;
