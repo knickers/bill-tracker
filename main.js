@@ -45,10 +45,11 @@ jQuery(function($) {
 			'submit': true,
 			'month': 0
 		};
-		
+		/*
 		$.post('/update.php', args, function(data) {
 			
 		});
+		*/
 	});
 	
 	initialize();
