@@ -7,7 +7,7 @@ IndexedDB.prototype.onError = function(e) {
 	console.log(e);
 };
 
-IndexedDB.prototype.open = function(version) {
+IndexedDB.prototype.open = function(version, callback) {
 	var request = indexedDB.open(this.store, version);
 	request.onupgradeneeded = function(e) {
 		var db = e.target.result;
@@ -22,7 +22,10 @@ IndexedDB.prototype.open = function(version) {
 		});
 	};
 	
-	request.onsuccess = function(e) { this.db = e.target.result; };
+	request.onsuccess = function(e) {
+		this.db = e.target.result;
+		callback();
+	};
 	request.onerror = this.onError;
 };
 
@@ -41,14 +44,16 @@ IndexedDB.prototype.getAll = function(callback) {
 	var range = IDBKeyRange.lowerBound(0);
 	var request = trans.objectStore(this.store).openCursor(range);
 	
+	var items = [];
 	request.onsuccess = function(e) {
 		var result = e.target.result;
 		if (!!result === false) {
+			complete(items);
 			return;
 		}
-		callback(result);
+		items.push(item);
 		result.continue();
-	}
+	};
 	request.onerror = this.error;
 };
 
