@@ -48,7 +48,7 @@ IndexedDB.prototype.getAll = function(callback) {
 	request.onsuccess = function(e) {
 		var result = e.target.result;
 		if (!!result === false) {
-			complete(items);
+			callback(items);
 			return;
 		}
 		items.push(item);
