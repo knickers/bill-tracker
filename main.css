@@ -1,7 +1,4 @@
-body {
-	margin: 0;
-	padding: 0;
-}
+body { margin: 0; padding: 0; }
 
 table {
 	width: 100%;
@@ -36,12 +33,10 @@ td .dollar { float: right; }
 	box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.6);
 	background-color: white;
 }
-.modal-toggle:checked ~ .modal {
-	display: block;
-}
+.modal-toggle:checked ~ .modal { display: block; }
+
+#transaction-skip { width: 75px; }
 
 @media (max-width: 768px) {
-	table {
-		font-size: 14px;
-	}
+	table { font-size: 14px; }
 }

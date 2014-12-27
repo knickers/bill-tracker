@@ -15,13 +15,11 @@ IndexedDB.prototype.open = function(version, callback) {
 		var db = e.target.result;
 		e.target.transaction.onerror = self.onError;
 		
-		if (db.objectStoreNames.contains(self.store)) {
-			db.deleteObjectStore(self.store);
+		if (!db.objectStoreNames.contains(self.store)) {
+			var store = db.createObjectStore(self.store, {
+				keyPath: 'id'
+			});
 		}
-		
-		var store = db.createObjectStore(self.store, {
-			keyPath: 'id'
-		});
 	};
 	
 	request.onsuccess = function(e) {
@@ -32,10 +30,10 @@ IndexedDB.prototype.open = function(version, callback) {
 };
 
 IndexedDB.prototype.insert = function(data, callback) {
+	data = $.extend({ 'id': new Date().getTime() }, data);
+	console.log('inserting:', data);
 	var trans = this.db.transaction([this.store], 'readwrite');
-	var request = trans.objectStore(this.store).put($.extend(data, {
-		'id': new Date().getTime()
-	}));
+	var request = trans.objectStore(this.store).put(data);
 	
 	trans.oncomplete = function(e) { callback(e.target.result); };
 	request.onerror = this.onError;
@@ -49,11 +47,11 @@ IndexedDB.prototype.getAll = function(callback) {
 	var items = [];
 	request.onsuccess = function(e) {
 		var result = e.target.result;
-		if (!!result === false) {
+		if (!result) {
 			callback(items);
 			return;
 		}
-		items.push(item);
+		items.push(result);
 		result.continue();
 	};
 	request.onerror = this.error;

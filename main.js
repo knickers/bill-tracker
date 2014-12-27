@@ -68,6 +68,33 @@ jQuery(function($) {
 		});
 	};
 	
+	$('.controls .modal .save label').on('click', function(e) {
+		var $id = $('#transaction-id');
+		var $name = $('#transaction-name');
+		var $link = $('#transaction-link');
+		var $date = $('#transaction-date');
+		var $skip = $('#transaction-skip');
+		var $period = $('#transaction-period');
+		var trans = {
+			name: $name.val(),
+			link: $link.val(),
+			date: $date.val(),
+			skip: $skip.val(),
+			period: $period.val()
+		};
+		if ($id !== '') {
+			trans.id = $id;
+		}
+		db.insert(trans, function(item) {
+			console.log('got back:', item);
+			$name.val('');
+			$link.val('');
+			$date.val('');
+			$skip.val('');
+			$period.val('');
+		});
+	});
+	
 	$('.month input').on('change', function() {
 		var args = {
 			'submit': true,

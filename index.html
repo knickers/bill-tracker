@@ -32,14 +32,19 @@
 				<label for="transaction-modal-toggle">Add Transaction</label>
 			</button>
 			<input type="checkbox" id="transaction-modal-toggle" class="modal-toggle hide">
-			<div class="modal">
+			<div class="transaction modal">
+				<input type="hidden" id="transaction-id">
 				<input type="text" id="transaction-name" placeholder="Name">
+				<br>
 				<input type="text" id="transaction-link" placeholder="Link (e.g. http://google.com)">
-				<input type="date" id="transaction-due">
+				<br>
+				<input type="date" id="transaction-date">
+				<br>
+				<input type="text" id="transaction-amount" placeholder="Amount">
 				
 				<div class="">
 					Every
-					<input type="number" id="transaction-period-skip" value="1">
+					<input type="number" id="transaction-skip" value="1">
 					<select id="transaction-period">
 						<option value="day">Day</option>
 						<option value="week">Week</option>
