@@ -1,7 +1,5 @@
 jQuery(function($) {
-	console.log('Loaded');
-	
-	var db = new IndexedDB('transactions');
+	var db = new IndexedDB('bill-tracker', 'transactions');
 	var months = [
 		'Jan',
 		'Feb',
@@ -20,7 +18,7 @@ jQuery(function($) {
 	var initialize = function() {
 		var date = new Date();
 		$('.head .month').text(months[date.getMonth()]);
-		db.open(1, function() {
+		db.open(2, function() {
 			db.getAll(rebuild);
 		});
 	};

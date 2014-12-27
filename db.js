@@ -1,5 +1,6 @@
-function IndexedDB(store) {
+function IndexedDB(dbName, store) {
 	this.db = null;
+	this.name = dbName;
 	this.store = store;
 }
 
@@ -8,22 +9,23 @@ IndexedDB.prototype.onError = function(e) {
 };
 
 IndexedDB.prototype.open = function(version, callback) {
-	var request = indexedDB.open(this.store, version);
+	var self = this;
+	var request = indexedDB.open(this.name, version);
 	request.onupgradeneeded = function(e) {
 		var db = e.target.result;
-		e.target.transaction.onerror = this.onError;
+		e.target.transaction.onerror = self.onError;
 		
-		if (db.objectStoreNames.contains(this.store)) {
-			db.deleteObjectStore(this.store);
+		if (db.objectStoreNames.contains(self.store)) {
+			db.deleteObjectStore(self.store);
 		}
 		
-		var store = db.createObjectStore(this.store, {
+		var store = db.createObjectStore(self.store, {
 			keyPath: 'id'
 		});
 	};
 	
 	request.onsuccess = function(e) {
-		this.db = e.target.result;
+		self.db = e.target.result;
 		callback();
 	};
 	request.onerror = this.onError;
@@ -31,16 +33,16 @@ IndexedDB.prototype.open = function(version, callback) {
 
 IndexedDB.prototype.insert = function(data, callback) {
 	var trans = this.db.transaction([this.store], 'readwrite');
-	var request = trans.objectStore(this.store).put($.extend({
+	var request = trans.objectStore(this.store).put($.extend(data, {
 		'id': new Date().getTime()
-	}, data));
+	}));
 	
 	trans.oncomplete = function(e) { callback(e.target.result); };
 	request.onerror = this.onError;
 };
 
 IndexedDB.prototype.getAll = function(callback) {
-	var trans = this.db.transaction([this.store], 'read');
+	var trans = this.db.transaction([this.store], 'readonly');
 	var range = IDBKeyRange.lowerBound(0);
 	var request = trans.objectStore(this.store).openCursor(range);
 	
@@ -64,5 +66,4 @@ IndexedDB.prototype.delete = function(id, callback) {
 	trans.oncomplete = function(e) { callback(e.target.result); };
 	request.onerror = this.onError;
 };
-
 
