@@ -1,5 +1,6 @@
 jQuery(function($) {
-	var db = new IndexedDB('bill-tracker', 'transactions');
+	var DB = new IndexedDB('bill-tracker', 'transactions');
+	var TRANS = $('#transactions .transaction.hide');
 	var months = [
 		'Jan',
 		'Feb',
@@ -18,8 +19,8 @@ jQuery(function($) {
 	var initialize = function() {
 		var date = new Date();
 		$('.head .month').text(months[date.getMonth()]);
-		db.open(2, function() {
-			db.getAll(rebuild);
+		DB.open(2, function() {
+			DB.getAll(rebuild);
 		});
 	};
 	
@@ -27,7 +28,7 @@ jQuery(function($) {
 		var exploded = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
-			for (var j=0; j<T.occurences.length; j++) {
+			/*for (var j=0; j<T.occurences.length; j++) {
 				var t = T.occurences[j];
 				exploded.push({
 					id: T.id,
@@ -36,16 +37,18 @@ jQuery(function($) {
 					amount: T.amount,
 					complete: t.complete
 				});
-			}
+			}*/
 		}
 		for (var i=0; i<transactions.length; i++) {
-			var T = transactions[i];
-			var t = trans.clone(true, true).removeClass('hide');
-			t.find('.date').text(T.date);
-			t.find('.name').text(T.name);
-			t.find('.amount').text(T.amount);
-			t.find('.month input').prop('checked', !!T.paid);
-			$('#transactions').append(t);
+			var T = TRANS.clone(true, true).removeClass('hide');
+			var t = transactions[i];
+			console.log(t);
+			T.find('.date').text(t.date);
+			T.find('.name').text(t.name);
+			T.find('.link').attr('href', t.link);
+			T.find('.amount').text(t.amount);
+			T.find('.month input').prop('checked', !!t.paid);
+			$('#transactions').append(T);
 		}
 	};
 	
@@ -85,7 +88,7 @@ jQuery(function($) {
 		if ($id !== '') {
 			trans.id = $id;
 		}
-		db.insert(trans, function(item) {
+		DB.insert(trans, function(item) {
 			console.log('got back:', item);
 			$name.val('');
 			$link.val('');

@@ -16,11 +16,20 @@ td { padding: 3px 5px; }
 .hide { display: none; }
 .red { color: red; }
 .text-center { text-align: center; }
+.nowrap { white-space: nowrap; }
 
 .name { width: 100%; }
 td.date { text-align: right; }
 td .dollar { float: right; }
 .month input { width: 95%; height: 100%; }
+td.name {
+	text-align: right;
+	padding-left: 10px;
+}
+td.name:before {
+	content: '$';
+	text-align: left;
+}
 
 .modal {
 	top: 5%;

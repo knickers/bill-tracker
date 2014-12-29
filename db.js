@@ -51,7 +51,7 @@ IndexedDB.prototype.getAll = function(callback) {
 			callback(items);
 			return;
 		}
-		items.push(result);
+		items.push(result.value);
 		result.continue();
 	};
 	request.onerror = this.error;
