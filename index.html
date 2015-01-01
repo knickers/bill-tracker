@@ -10,16 +10,17 @@
 	<body>
 		<table id="transactions" cellspacing="0">
 			<tr class="head">
-				<th class="date">Date</th>
+				<th class="date" colspan="2">Date</th>
 				<th class="name">Name</th>
 				<th class="amount">Amount</th>
 				<th class="total">Total</th>
 				<th class="month" data-val=""></th>
 			</tr>
 			<tr class="transaction hide">
-				<td class="date nowrap"></td>
+				<td class="date"></td>
+				<td class="ordinal"></td>
 				<td class="name">
-					<a href="" class="link"></a>
+					<a href="" class="link" target="_blank"></a>
 				</td>
 				<td class="amount nowrap"><span class="dollar"></span>$</td>
 				<td class="total nowrap"><span class="dollar"></span>$</td>
@@ -34,7 +35,7 @@
 				<label for="transaction-modal-toggle">Add Transaction</label>
 			</button>
 			<input type="checkbox" id="transaction-modal-toggle" class="modal-toggle hide">
-			<div class="transaction modal">
+			<div class="editor modal">
 				<input type="hidden" id="transaction-id">
 				<input type="text" id="transaction-name" placeholder="Name">
 				<br>
@@ -55,11 +56,14 @@
 					</select>
 				</div>
 				
-				<button class="save">
+				<button id="transaction-save">
 					<label for="transaction-modal-toggle">Save</label>
 				</button>
-				<button class="cancel">
+				<button id="transaction-cancel">
 					<label for="transaction-modal-toggle">Cancel</label>
+				</button>
+				<button id="transaction-delete">
+					<label for="transaction-modal-toggle">Delete</label>
 				</button>
 			</div>
 		</div>

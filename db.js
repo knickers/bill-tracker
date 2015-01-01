@@ -35,7 +35,8 @@ IndexedDB.prototype.insert = function(data, callback) {
 	var trans = this.db.transaction([this.store], 'readwrite');
 	var request = trans.objectStore(this.store).put(data);
 	
-	trans.oncomplete = function(e) { callback(e.target.result); };
+	trans.oncomplete = function(e) { console.log('insert complete event:', e); callback(e.target.result); };
+	
 	request.onerror = this.onError;
 };
 
