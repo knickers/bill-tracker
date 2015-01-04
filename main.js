@@ -2,13 +2,6 @@ jQuery(function($) {
 	var DB = new IndexedDB('bill-tracker', 'transactions');
 	var TRANS = $('#transactions .transaction.hide');
 	var months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-	var ordinal = function(num) {
-		var n = String(num).substr(-1);
-		if (n === '1') return 'st';
-		if (n === '2') return 'nd';
-		if (n === '3') return 'rd';
-		return 'th';
-	};
 	
 	var initialize = function() {
 		var date = new Date();
@@ -35,80 +28,39 @@ jQuery(function($) {
 		}
 		for (var i=0; i<transactions.length; i++) {
 			var T = TRANS.clone(true, true).removeClass('hide');
-			var t = transactions[i];
-			var d = new Date(t.date).getDate();
-			var a = t.amount || 0;
-			T.data('trans', t);
-			T.find('.date').text(d);
-			T.find('.ordinal').text(ordinal(d));
-			T.find('.name .link').text(t.name).attr('href', t.link);
-			T.find('.amount .dollar').text(Number(a).toFixed(2));
-			T.find('.month input').prop('checked', !!t.paid);
+			updateTransactionRow(T, transactions[i]);
 			$('#transactions').append(T);
 		}
 		recalculate();
 	};
 	
-	var recalculate = function() {
-		var total = 0;
-		$('.transaction:not(.hide)').each(function() {
-			var self = $(this);
-			var dollar = self.find('.amount .dollar');
-			var amount = parseFloat(dollar.text());
-			if (amount < 0) {
-				dollar.addClass('red');
-			} else {
-				dollar.removeClass('red');
-			}
-			
-			total += amount;
-			
-			self.find('.total .dollar').text(total.toFixed(2));
-		});
-	};
-	
 	/* Open the Editor Modal when a row is clicked */
 	$('tr.transaction td').on('click', function() {
-		var data = $(this).parents('tr.transaction').data('trans');
-		$('#transaction-id').val(data.id);
-		$('#transaction-name').val(data.name);
-		$('#transaction-link').val(data.link);
-		$('#transaction-date').val(data.date);
-		$('#transaction-skip').val(data.skip);
-		$('#transaction-period').val(data.period);
-		$('#transaction-amount').val(data.amount);
+		setModalData($(this).parents('tr.transaction').data('trans'));
 		$('#transaction-modal-toggle').trigger('click');
 	});
 	
 	/* Save the current transaction */
 	$('#transaction-save').on('click', function(e) {
-		var $id = $('#transaction-id');
-		var $name = $('#transaction-name');
-		var $link = $('#transaction-link');
-		var $date = $('#transaction-date');
-		var $skip = $('#transaction-skip');
-		var $period = $('#transaction-period');
-		var $amount = $('#transaction-amount');
-		var trans = {
-			name: $name.val(),
-			link: $link.val(),
-			date: $date.val(),
-			skip: $skip.val(),
-			period: $period.val(),
-			amount: $amount.val()
-		};
-		if ($id.val() !== '') {
-			trans.id = Number($id.val());
-		}
+		var trans = getModalData();
+		var isNew = trans.id === '';
+		trans.id = isNew ? undefined : Number(trans.id);
 		DB.insert(trans, function(item) {
 			console.log('got back:', item);
-			$name.val('');
-			$link.val('');
-			$date.val('');
-			$skip.val('');
-			$period.val('');
-			$amount.val('');
+			if (isNew) {
+				var t = TRANS.clone(true, true).removeClass('hide');
+				updateTransactionRow(t, trans);
+				$('#transactions').append(t);
+			} else {
+				updateTransactionRow($('#transaction-' + trans.id), trans);
+			}
+			clearModalData();
 		});
+	});
+	
+	/* Cancel the current editing */
+	$('#transaction-cancel').on('click', function(e) {
+		clearModalData();
 	});
 	
 	/* Delete the current transaction */
@@ -117,6 +69,8 @@ jQuery(function($) {
 			var id = Number($('#transaction-id').val());
 			if (id) {
 				DB.delete(id, function(e) { console.log(e); });
+				$('#transaction-' + id).remove();
+				clearModalData();
 			}
 		}
 	});
