@@ -5,7 +5,7 @@ jQuery(function($) {
 	
 	var initialize = function() {
 		var date = new Date();
-		$('.head .month').text(months[date.getMonth()]);
+		$('thead .month').text(months[date.getMonth()]);
 		DB.open(2, function() {
 			DB.getAll(rebuild);
 		});

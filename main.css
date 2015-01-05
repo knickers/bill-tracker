@@ -19,7 +19,7 @@ td { padding: 3px 5px; }
 
 .name { width: 100%; }
 td.date { text-align: right; padding-right: 0; }
-td.ordinal { padding-left: 0; border-left: none; }
+td.ordinal { padding-left: 1px; border-left: none; }
 td .dollar { float: right; padding-left: 0.5em; }
 td.month input { width: 95%; height: 100%; margin: 0; }
 
