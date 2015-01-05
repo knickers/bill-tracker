@@ -50,10 +50,11 @@ jQuery(function($) {
 			if (isNew) {
 				var t = TRANS.clone(true, true).removeClass('hide');
 				updateTransactionRow(t, trans);
-				$('#transactions').append(t);
+				$('#transactions tbody').append(t);
 			} else {
 				updateTransactionRow($('#transaction-' + trans.id), trans);
 			}
+			recalculate();
 			clearModalData();
 		});
 	});
