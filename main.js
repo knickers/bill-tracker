@@ -1,11 +1,11 @@
 jQuery(function($) {
 	var DB = new IndexedDB('bill-tracker', 'transactions');
 	var TRANS = $('#transactions .transaction.hide');
-	var months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var MONTHS = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	
 	var initialize = function() {
 		var date = new Date();
-		$('thead .month').text(months[date.getMonth()]);
+		$('thead .month').text(MONTHS[date.getMonth()]);
 		DB.open(2, function() {
 			DB.getAll(rebuild);
 		});
