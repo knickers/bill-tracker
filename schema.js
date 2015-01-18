@@ -1,17 +1,17 @@
 transactions: [
 	{
-		id: new Date.getTime(), // createdAt
-		date: Date,
+		id: int, //created at timestamp
+		due: int, // when a particular instance of a transaction is due
+		day: int, // day of the week
+		date: int, // day of the month
 		name: 'Car Payment',
 		link: 'http://google.com',
-		skip: 2,
-		period: 'Week',
+		skip: int, // period to skip
+		period: 'week',
 		amount: 200.00,
-		occurences: [
-			{
-				date: Date,
-				complete: true
-			}
-		]
+		payments: {
+			int: int, // due timestamp: payed timestamp
+			1419664504343: 1419664401237
+		}
 	}
 ]

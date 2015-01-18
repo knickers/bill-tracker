@@ -46,7 +46,18 @@
 				<br>
 				<input type="text" id="transaction-link" placeholder="Link (e.g. http://google.com)">
 				<br>
-				<input type="date" id="transaction-date">
+				<input type="number" id="transaction-date" placeholder="Day">
+				or
+				<select id="transaction-day">
+					<option value="-1">Weekday</option>
+					<option value="0">Sunday</option>
+					<option value="1">Monday</option>
+					<option value="2">Tuesday</option>
+					<option value="3">Wednesday</option>
+					<option value="4">Thursday</option>
+					<option value="5">Friday</option>
+					<option value="6">Saturday</option>
+				</select>
 				<br>
 				<input type="number" id="transaction-amount" placeholder="Amount">
 				
@@ -54,10 +65,10 @@
 					Every
 					<input type="number" id="transaction-skip" value="1">
 					<select id="transaction-period">
-						<option value="day">Day</option>
-						<option value="week">Week</option>
-						<option value="month">Month</option>
-						<option value="year">Year</option>
+						<option value="day">Days</option>
+						<option value="week">Weeks</option>
+						<option value="month">Months</option>
+						<option value="year">Years</option>
 					</select>
 				</div>
 				

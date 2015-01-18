@@ -1,34 +1,65 @@
 jQuery(function($) {
 	var DB = new IndexedDB('bill-tracker', 'transactions');
+	var DATE = new Date();
 	var TRANS = $('#transactions .transaction.hide');
 	var MONTHS = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	
 	var initialize = function() {
-		var date = new Date();
-		$('thead .month').text(MONTHS[date.getMonth()]);
+		console.log('initializing');
+		$('thead .month').text(MONTHS[DATE.getMonth()]);
 		DB.open(2, function() {
+			console.log('opened database');
 			DB.getAll(rebuild);
 		});
 	};
 	
 	var rebuild = function(transactions) {
+		console.log('rebuilding', DATE);
 		var exploded = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
-			/*for (var j=0; j<T.occurences.length; j++) {
-				var t = T.occurences[j];
-				exploded.push({
-					id: T.id,
-					date: t.date,
-					name: T.name,
-					amount: T.amount,
-					complete: t.complete
-				});
-			}*/
+			console.log('transaction', T);
+			var d = new Date(DATE);
+			if (T.day >= 0) {
+				for (var j=1; j<7; j++) {
+					d.setDate(j);
+					if (d.getDay() == T.day) {
+						break;
+					}
+				}
+			} else {
+				d.setDate(T.date);
+			}
+			
+			for (var j=0; j<32; j++) {
+				console.log('  occurence', d);
+				exploded.push($.extend(clone(T), {
+					due: d.getTime(),
+					date: d.getDate()
+				}));
+				
+				// Go to the next occurence
+				if (T.period === 'day') {
+					d.setDate(d.getDate() + T.skip);
+				} else if (T.period === 'week') {
+					d.setDate(d.getDate() + T.skip*7);
+				} else if (T.period === 'month') {
+					d.setMonth(d.getMonth() + T.skip);
+				} else if (T.period === 'year') {
+					d.setFullYear(d.getFullYear() + T.skip);
+				}
+				
+				if (d.getMonth() > DATE.getMonth()) {
+					break;
+				}
+			}
 		}
-		for (var i=0; i<transactions.length; i++) {
+		exploded.sort(function(a, b) {
+			return a.due < b.due ? -1 : (a.due > b.due ? 1 : 0);
+		});
+		for (var i=0; i<exploded.length; i++) {
 			var T = TRANS.clone(true, true).removeClass('hide');
-			updateTransactionRow(T, transactions[i]);
+			updateTransactionRow(T, exploded[i]);
 			$('#transactions').append(T);
 		}
 		recalculate();
@@ -69,7 +100,7 @@ jQuery(function($) {
 		if(confirm('Are you sure you want to delete this transaction?\nAll events in this series will be deleted.')) {
 			var id = Number($('#transaction-id').val());
 			if (id) {
-				DB.delete(id, function(e) { console.log(e); });
+				DB.delete(id, function(e) { console.log('deleted ', e); });
 				$('#transaction-' + id).remove();
 				clearModalData();
 			}

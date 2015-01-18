@@ -24,14 +24,12 @@ var recalculate = function() {
 
 var updateTransactionRow = function(trans, data) {
 	var a = data.amount || 0;
-	var d = new Date(data.date);
-	/* dates are saved in UTC, so add in the local timezone */
-	d.setTime(d.getTime() + d.getTimezoneOffset() * 60000);
 	
 	trans.attr('id', 'transaction-' + data.id);
 	trans.data('trans', data);
-	trans.find('.date').text(d.getDate());
-	trans.find('.ordinal').text(ordinal(d.getDate()));
+	trans.find('.day').text(data.day);
+	trans.find('.date').text(data.date);
+	trans.find('.ordinal').text(ordinal(data.date));
 	trans.find('.name .link').text(data.name).attr('href', data.link);
 	trans.find('.amount .dollar').text(Number(a).toFixed(2));
 	trans.find('.month input').prop('checked', !!data.paid);
@@ -39,7 +37,7 @@ var updateTransactionRow = function(trans, data) {
 	recalculate();
 };
 
-var modalKeys = ['id', 'name', 'link', 'date', 'skip', 'period', 'amount'];
+var modalKeys = ['id','day','date','name','link','skip','period','amount'];
 var getModalData = function() {
 	var data = {};
 	for (var i=0; i<modalKeys.length; i++) {
@@ -58,3 +56,15 @@ var clearModalData = function() {
 	}
 };
 
+var clone = function(obj) {
+	if (obj == null || typeof(obj) != 'object') {
+		return obj;
+	}
+	var copy = obj.constructor();
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			copy[key] = obj[key];
+		}
+	}
+	return copy;
+};
