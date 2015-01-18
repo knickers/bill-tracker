@@ -32,7 +32,11 @@ var updateTransactionRow = function(trans, data) {
 	trans.find('.ordinal').text(ordinal(data.date));
 	trans.find('.name .link').text(data.name).attr('href', data.link);
 	trans.find('.amount .dollar').text(Number(a).toFixed(2));
-	trans.find('.month input').prop('checked', !!data.paid);
+	if (data.payments) {
+		trans.find('.month input')
+			.prop('checked', !!data.payments[data.due])
+			.attr('title', 'Paid on ' + data.payments[data.due]);
+	}
 	
 	recalculate();
 };
