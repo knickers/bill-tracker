@@ -39,7 +39,13 @@
 			<button class="add">
 				<label for="transaction-modal-toggle">Add Transaction</label>
 			</button>
-			<input type="checkbox" id="transaction-modal-toggle" class="modal-toggle hide">
+			
+			<div><br>Current Month</div>
+			<button id="month-prev">&lt;&lt;</button>
+			<input type="date" id="month-current"/>
+			<button id="month-next">&gt;&gt;</button>
+			
+			<input type="checkbox" id="transaction-modal-toggle" class="modal-toggle">
 			<div class="editor modal">
 				<input type="hidden" id="transaction-id">
 				<input type="text" id="transaction-name" placeholder="Name">

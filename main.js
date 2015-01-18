@@ -6,7 +6,6 @@ jQuery(function($) {
 	
 	var initialize = function() {
 		console.log('initializing');
-		$('thead .paid').text(MONTHS[DATE.getMonth()]);
 		$('#loading').removeClass('hide');
 		DB.open(2, function() {
 			console.log('opened database');
@@ -17,6 +16,12 @@ jQuery(function($) {
 	var rebuild = function(transactions) {
 		//console.log('rebuilding', DATE.getMonth()+1, DATE.getFullYear());
 		$('.transaction:not(.hide)').remove();
+		$('thead .paid').text(MONTHS[DATE.getMonth()]);
+		var str = (DATE.getMonth()+1) + '';
+		if (str.length < 2) {
+			str = '0' + str;
+		}
+		$('#month-current').val(DATE.getFullYear() + '-' + str + '-01');
 		var occurrences = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
@@ -52,7 +57,9 @@ jQuery(function($) {
 					d.setFullYear(d.getFullYear() + T.skip);
 				}
 				
-				if (d.getMonth() > DATE.getMonth()) {
+				if (d.getMonth() > DATE.getMonth() ||
+					d.getFullYear() > DATE.getFullYear()
+				) {
 					break;
 				}
 			}
@@ -114,6 +121,23 @@ jQuery(function($) {
 	/* Update the paid status when a checkbox is changed */
 	$('.paid input').on('change', function(e) {
 		e.stopPropagation();
+	});
+	
+	/* Update the current month */
+	$('#month-current').on('change', function(e) {
+		DATE = new Date($('#month-date').val());
+		$('#loading').removeClass('hide');
+		DB.getAll(rebuild);
+	});
+	$('#month-prev').on('click', function(e) {
+		DATE.setMonth(DATE.getMonth() - 1);
+		$('#loading').removeClass('hide');
+		DB.getAll(rebuild);
+	});
+	$('#month-next').on('click', function(e) {
+		DATE.setMonth(DATE.getMonth() + 1);
+		$('#loading').removeClass('hide');
+		DB.getAll(rebuild);
 	});
 	
 	initialize();
