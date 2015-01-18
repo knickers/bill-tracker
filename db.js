@@ -10,6 +10,10 @@ IndexedDB.prototype.onError = function(e) {
 
 IndexedDB.prototype.open = function(version, callback) {
 	var self = this;
+	if (!indexedDB) {
+		alert('Your browser does not support IndexedDB');
+		return;
+	}
 	var request = indexedDB.open(this.name, version);
 	request.onupgradeneeded = function(e) {
 		var db = e.target.result;
