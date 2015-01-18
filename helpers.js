@@ -33,7 +33,7 @@ var updateTransactionRow = function(trans, data) {
 	trans.find('.name .link').text(data.name).attr('href', data.link);
 	trans.find('.amount .dollar').text(Number(a).toFixed(2));
 	if (data.payments) {
-		trans.find('.month input')
+		trans.find('.paid input')
 			.prop('checked', !!data.payments[data.due])
 			.attr('title', 'Paid on ' + data.payments[data.due]);
 	}

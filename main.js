@@ -6,7 +6,7 @@ jQuery(function($) {
 	
 	var initialize = function() {
 		console.log('initializing');
-		$('thead .month').text(MONTHS[DATE.getMonth()]);
+		$('thead .paid').text(MONTHS[DATE.getMonth()]);
 		$('#loading').removeClass('hide');
 		DB.open(2, function() {
 			console.log('opened database');
@@ -112,7 +112,7 @@ jQuery(function($) {
 	$('.name a').on('click', function(e) { e.stopPropagation(); });
 	
 	/* Update the paid status when a checkbox is changed */
-	$('.month input').on('change', function(e) {
+	$('.paid input').on('change', function(e) {
 		e.stopPropagation();
 	});
 	

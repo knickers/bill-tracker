@@ -10,8 +10,8 @@ transactions: [
 		period: 'week',
 		amount: 200.00,
 		payments: {
-			int: int, // due timestamp: payed timestamp
-			1419664504343: 1419664401237
+			int: bool, // due timestamp: payed
+			1419664504343: true
 		}
 	}
 ]
