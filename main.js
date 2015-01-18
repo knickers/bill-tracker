@@ -15,22 +15,19 @@ jQuery(function($) {
 	};
 	
 	var rebuild = function(transactions) {
-		console.log('rebuilding', DATE.getMonth()+1, DATE.getFullYear());
+		//console.log('rebuilding', DATE.getMonth()+1, DATE.getFullYear());
 		$('.transaction:not(.hide)').remove();
 		var occurrences = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
 			//console.log('transaction', T);
 			var d = new Date(DATE);
-			if (T.day >= 0) {
-				var add = Number(T.date) || 1;
+			if (T.day != '') {
+				var count = Number(T.date) || 1;
 				for (var j=1; j<32; j++) {
 					d.setDate(j);
-					if (d.getDay() == T.day) {
-						add--;
-						if (!add) {
-							break;
-						}
+					if (d.getDay() == T.day && !--count) {
+						break;
 					}
 				}
 			} else {

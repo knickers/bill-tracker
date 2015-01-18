@@ -53,11 +53,10 @@ var setModalData = function(data) {
 	for (var i=0; i<modalKeys.length; i++) {
 		$('#transaction-' + modalKeys[i]).val(data[modalKeys[i]]);
 	}
+	if (!data.day || data.day== '') { $('#transaction-period').val('day'); }
 };
 var clearModalData = function() {
-	for (var i=0; i<modalKeys.length; i++) {
-		$('#transaction-' + modalKeys[i]).val('');
-	}
+	setModalData({});
 };
 
 var clone = function(obj) {
