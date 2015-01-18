@@ -7,6 +7,7 @@ jQuery(function($) {
 	var initialize = function() {
 		console.log('initializing');
 		$('thead .month').text(MONTHS[DATE.getMonth()]);
+		$('#loading').removeClass('hide');
 		DB.open(2, function() {
 			console.log('opened database');
 			DB.getAll(rebuild);
@@ -14,18 +15,22 @@ jQuery(function($) {
 	};
 	
 	var rebuild = function(transactions) {
-		console.log('rebuilding', DATE);
+		console.log('rebuilding', DATE.getMonth()+1, DATE.getFullYear());
 		$('.transaction:not(.hide)').remove();
 		var occurrences = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
-			console.log('transaction', T);
+			//console.log('transaction', T);
 			var d = new Date(DATE);
 			if (T.day >= 0) {
-				for (var j=1; j<7; j++) {
+				var add = Number(T.date) || 1;
+				for (var j=1; j<32; j++) {
 					d.setDate(j);
 					if (d.getDay() == T.day) {
-						break;
+						add--;
+						if (!add) {
+							break;
+						}
 					}
 				}
 			} else {
@@ -80,7 +85,7 @@ jQuery(function($) {
 		trans.id = isNew ? undefined : Number(trans.id);
 		$('#loading').removeClass('hide');
 		DB.insert(trans, function(item) {
-			console.log('got back:', item);
+			//console.log('got back:', item);
 			DB.getAll(rebuild);
 			clearModalData();
 		});
@@ -98,7 +103,7 @@ jQuery(function($) {
 			if (id) {
 				$('#loading').removeClass('hide');
 				DB.delete(id, function(e) {
-					console.log('deleted ', e);
+					//console.log('deleted ', e);
 					DB.getAll(rebuild);
 					clearModalData();
 				});
