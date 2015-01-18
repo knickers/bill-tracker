@@ -15,7 +15,8 @@ jQuery(function($) {
 	
 	var rebuild = function(transactions) {
 		console.log('rebuilding', DATE);
-		var exploded = [];
+		$('.transaction:not(.hide)').remove();
+		var occurrences = [];
 		for (var i=0; i<transactions.length; i++) {
 			var T = transactions[i];
 			console.log('transaction', T);
@@ -32,8 +33,8 @@ jQuery(function($) {
 			}
 			
 			for (var j=0; j<32; j++) {
-				console.log('  occurence', d);
-				exploded.push($.extend(clone(T), {
+				//console.log('  occurence', d);
+				occurrences.push($.extend(clone(T), {
 					due: d.getTime(),
 					date: d.getDate()
 				}));
@@ -54,15 +55,16 @@ jQuery(function($) {
 				}
 			}
 		}
-		exploded.sort(function(a, b) {
+		occurrences.sort(function(a, b) {
 			return a.due < b.due ? -1 : (a.due > b.due ? 1 : 0);
 		});
-		for (var i=0; i<exploded.length; i++) {
+		for (var i=0; i<occurrences.length; i++) {
 			var T = TRANS.clone(true, true).removeClass('hide');
-			updateTransactionRow(T, exploded[i]);
+			updateTransactionRow(T, occurrences[i]);
 			$('#transactions').append(T);
 		}
 		recalculate();
+		$('#loading').addClass('hide');
 	};
 	
 	/* Open the Editor Modal when a row is clicked */
@@ -76,16 +78,10 @@ jQuery(function($) {
 		var trans = getModalData();
 		var isNew = trans.id === '';
 		trans.id = isNew ? undefined : Number(trans.id);
+		$('#loading').removeClass('hide');
 		DB.insert(trans, function(item) {
 			console.log('got back:', item);
-			if (isNew) {
-				var t = TRANS.clone(true, true).removeClass('hide');
-				updateTransactionRow(t, trans);
-				$('#transactions tbody').append(t);
-			} else {
-				updateTransactionRow($('#transaction-' + trans.id), trans);
-			}
-			recalculate();
+			DB.getAll(rebuild);
 			clearModalData();
 		});
 	});
@@ -100,9 +96,12 @@ jQuery(function($) {
 		if(confirm('Are you sure you want to delete this transaction?\nAll events in this series will be deleted.')) {
 			var id = Number($('#transaction-id').val());
 			if (id) {
-				DB.delete(id, function(e) { console.log('deleted ', e); });
-				$('#transaction-' + id).remove();
-				clearModalData();
+				$('#loading').removeClass('hide');
+				DB.delete(id, function(e) {
+					console.log('deleted ', e);
+					DB.getAll(rebuild);
+					clearModalData();
+				});
 			}
 		}
 	});
