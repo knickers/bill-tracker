@@ -28,6 +28,7 @@ jQuery(function($) {
 			//console.log('transaction', T);
 			var d = new Date(DATE);
 			if (T.day != '') {
+				// Get to the starting weekday
 				var count = Number(T.date) || 1;
 				for (var j=1; j<32; j++) {
 					d.setDate(j);

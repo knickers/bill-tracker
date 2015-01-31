@@ -1,5 +1,7 @@
 var ordinal = function(num) {
-	var n = String(num).substr(-1);
+	var s = String(num);
+	if (s.length > 1 && s.substr(-2, 1) === '1') return 'th';
+	var n = s.substr(-1);
 	if (n === '1') return 'st';
 	if (n === '2') return 'nd';
 	if (n === '3') return 'rd';
