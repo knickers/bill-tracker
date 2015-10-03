@@ -15,20 +15,22 @@
 				<tr>
 					<th class="date" colspan="2">Date</th>
 					<th class="name">Name</th>
-					<th class="amount">Amount</th>
-					<th class="total">Total</th>
+					<th class="amount" colspan="2">Amount</th>
+					<th class="total" colspan="2">Total</th>
 					<th class="paid" data-val=""></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="transaction hide">
-					<td class="date"></td>
-					<td class="ordinal"></td>
+					<td class="date text-right"></td>
+					<td class="ordinal dark"><sup></sup></td>
 					<td class="name">
 						<a href="" class="link" target="_blank"></a>
 					</td>
-					<td class="amount nowrap"><span class="dollar"></span>$</td>
-					<td class="total nowrap"><span class="dollar"></span>$</td>
+					<td class="dollar text-right dark"><sup>$</sup></td>
+					<td class="amount text-right"></td>
+					<td class="dollar text-right dark"><sup>$</sup></td>
+					<td class="total text-right"></td>
 					<td class="paid text-center">
 						<input type="checkbox" />
 					</td>
@@ -45,6 +47,8 @@
 			<button id="month-prev">&lt;&lt;</button>
 			<input type="date" id="month-current"/>
 			<button id="month-next">&gt;&gt;</button>
+			
+			<br><br>
 			
 			<input type="checkbox" id="transaction-modal-toggle" class="modal-toggle">
 			<div class="editor modal">

@@ -1,6 +1,6 @@
 transactions: [
 	{
-		id: int, //created at timestamp
+		id: int, // created_at timestamp
 		due: int, // when a particular instance of a transaction is due
 		day: int, // day of the week
 		date: int, // day of the month
@@ -10,7 +10,7 @@ transactions: [
 		period: 'week',
 		amount: 200.00,
 		payments: {
-			int: bool, // due timestamp: payed
+			int: bool, // due date timestamp: paid
 			1419664504343: true
 		}
 	}

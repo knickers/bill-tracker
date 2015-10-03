@@ -12,13 +12,13 @@ var recalculate = function() {
 	var total = 0;
 	$('.transaction:not(.hide)').each(function() {
 		var self = $(this);
-		var dollar = self.find('.amount .dollar');
+		var dollar = self.find('.amount');
 		var amount = parseFloat(dollar.text());
 		dollar.toggleClass('red', amount < 0);
 		
 		total += amount;
 		
-		self.find('.total .dollar')
+		self.find('.total')
 			.text(total.toFixed(2))
 			.toggleClass('red', total < 0);
 	});
@@ -31,9 +31,9 @@ var updateTransactionRow = function(trans, data) {
 	trans.data('trans', data);
 	trans.find('.day').text(data.day);
 	trans.find('.date').text(data.date);
-	trans.find('.ordinal').text(ordinal(data.date));
+	trans.find('.ordinal sup').text(ordinal(data.date));
 	trans.find('.name .link').text(data.name).attr('href', data.link);
-	trans.find('.amount .dollar').text(Number(a).toFixed(2));
+	trans.find('.amount').text(Number(a).toFixed(2));
 	if (data.payments) {
 		trans.find('.paid input')
 			.prop('checked', !!data.payments[data.due])
